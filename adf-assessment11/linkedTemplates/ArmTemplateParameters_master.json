@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-assessment11"
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"db_to_snowflake_password": {
+			"value": ""
+		},
+		"local_server_password": {
+			"value": ""
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "DESKTOP-SDMB9NV"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "ride-sharing"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"blob_connection_sasUri": {
+			"value": ""
+		},
+		"db_to_snowflake_properties_typeProperties_database": {
+			"value": "RIDE_SHARING_DB"
+		},
+		"db_to_snowflake_properties_typeProperties_role": {
+			"value": "ACCOUNTADMIN"
+		},
+		"db_to_snowflake_properties_typeProperties_host": {
+			"value": "LZLTXPB-FW41340.snowflakecomputing.com"
+		},
+		"linkedService1_sasUri": {
+			"value": ""
+		},
+		"local_server_properties_typeProperties_server": {
+			"value": "DESKTOP-SDMB9NV"
+		},
+		"local_server_properties_typeProperties_database": {
+			"value": "ride-sharing"
+		},
+		"local_server_properties_typeProperties_userName": {
+			"value": "kavin11"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
