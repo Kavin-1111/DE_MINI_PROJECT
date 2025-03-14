@@ -1,0 +1,364 @@
+{
+	"name": "local_server_to_snowflake",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "local_sql",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dbt_to_snowflake",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Foreachactivity",
+				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('filename')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data2",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "SnowflakeV2Sink",
+									"importSettings": {
+										"type": "SnowflakeImportCopyCommand"
+									}
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "linkedService1",
+										"type": "LinkedServiceReference"
+									},
+									"path": "blob"
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "local_sql",
+									"type": "DatasetReference",
+									"parameters": {
+										"name": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "dbt_to_snowflake",
+									"type": "DatasetReference",
+									"parameters": {
+										"output": {
+											"value": "@variables('filename')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Copy data2_copy1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedService1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "blob"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "local_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"name": "Country_Region"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dbt_to_snowflake",
+						"type": "DatasetReference",
+						"parameters": {
+							"output": "COUNTRY_REGION"
+						}
+					}
+				]
+			},
+			{
+				"name": "Copy data2_copy1_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedService1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "blob"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "local_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"name": "Ride_Sharing_customers"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dbt_to_snowflake",
+						"type": "DatasetReference",
+						"parameters": {
+							"output": "CUSTOMERS"
+						}
+					}
+				]
+			},
+			{
+				"name": "Copy data2_copy1_copy2",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1_copy1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedService1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "blob"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "local_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"name": "Ride_Sharing_product"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dbt_to_snowflake",
+						"type": "DatasetReference",
+						"parameters": {
+							"output": "PRODUCTS"
+						}
+					}
+				]
+			},
+			{
+				"name": "Copy data2_copy1_copy2_copy1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy data2_copy1_copy2",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SnowflakeV2Sink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "linkedService1",
+							"type": "LinkedServiceReference"
+						},
+						"path": "blob"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "local_sql",
+						"type": "DatasetReference",
+						"parameters": {
+							"name": "Ride_Sharing_transaction"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "dbt_to_snowflake",
+						"type": "DatasetReference",
+						"parameters": {
+							"output": "TRANSACTION"
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"filename": {
+				"type": "Array",
+				"defaultValue": [
+					"Ride_Sharing_customers",
+					"Ride_Sharing_products",
+					"Ride_Sharing_transaction"
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-03-14T04:11:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

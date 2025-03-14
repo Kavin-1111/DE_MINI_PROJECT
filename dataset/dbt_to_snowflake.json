@@ -1,0 +1,22 @@
+{
+	"name": "dbt_to_snowflake",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "db_to_snowflake",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"output": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "SnowflakeV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "RAW",
+			"table": "COUNTRY_REGION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
