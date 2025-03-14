@@ -1,0 +1,4 @@
+SELECT
+    *
+from RIDE_SHARING_DB.STAGING.stg_transaction
+WHERE REVENUE<0

@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "SNOWFLAKE_PRAC"."PUBLIC_PUBLIC"."SAMPLE_DATA";
+    -- dbt seed --
+    
+            insert into SNOWFLAKE_PRAC.public_public.sample_data (id, name, age) values
+            (%s,%s,%s),(%s,%s,%s)
+        
+
+;
+  

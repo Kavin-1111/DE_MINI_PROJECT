@@ -1,0 +1,35 @@
+version : 2
+
+sources:
+- name : tp_source
+  database : RIDE_SHARING_DB
+  schema : RAW
+  tables: 
+   - name : CUSTOMERS
+     columns :
+      - name: CUSTOMER_ID
+        tests:
+         - not_null
+         - unique
+
+   - name : PRODUCTS
+     columns :
+      - name: PRODUCT_ID
+        tests:
+        - not_null
+        - unique
+
+   - name : COUNTRY_REGION
+     columns :
+      - name: CUSTOMER_ID
+        tests:
+        - not_null
+        - unique
+
+   - name : TRANSACTION
+     columns :
+      - name: CUSTOMER_ID
+        tests:
+        - not_null
+        - unique
+       

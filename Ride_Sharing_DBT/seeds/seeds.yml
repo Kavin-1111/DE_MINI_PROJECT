@@ -1,0 +1,8 @@
+version: 2
+
+seeds:
+  - name: sample
+    config:
+      database : SNOWFLAKE_PRAC
+      schema: public
+      alias: sample_data
